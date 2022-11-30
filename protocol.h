@@ -3,11 +3,8 @@
 typedef enum { false, true } boolean;   /* boolean type */
 typedef unsigned int seq_nr;            /* sequence or ACK numbers */
 
-typedef struct {
-    unsigned char data[MAX_PKT];
-} packet;                               /* packet definition */
+typedef struct {unsigned char data[MAX_PKT];} packet;                               /* packet definition */
 typedef enum { data, ack, nak } frame_kind; /* frame kind definition */
-
 
 typedef struct {
     frame_kind kind;                    /* what kind of frame? */
