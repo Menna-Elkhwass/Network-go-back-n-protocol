@@ -2,7 +2,7 @@
 #include <queue>
 typedef enum { false, true } boolean;   /* boolean type */
 typedef unsigned int seq_nr;            /* sequence or ACK numbers */
-
+boolean network_layer_on;               /*holds the state of the network layer*/
 typedef struct {
     unsigned char data[MAX_PKT];
 } packet;                               /* packet definition */
@@ -55,9 +55,9 @@ void stop_timer(seq_nr k);
 
 /* allow the network to cause a network_layer_ready event */
 void enable_network_layer(void);
-
+network_layer_on = true;
 /* forbid the network to cause a network_layer_ready event */
 void disable_network_layer(void);
-
+network_layer_on = false;
 /* macro inc */
 #define inc(k) if (k < MAX_SEQ) k = k + 1; else k = 0
