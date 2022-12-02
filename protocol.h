@@ -1,10 +1,20 @@
 #define MAX_PKT 1024                    /* packet size in bytes */
-
+#include <queue>
 typedef enum { false, true } boolean;   /* boolean type */
 typedef unsigned int seq_nr;            /* sequence or ACK numbers */
 
-typedef struct {unsigned char data[MAX_PKT];} packet;                               /* packet definition */
-typedef enum { data, ack, nak } frame_kind; /* frame kind definition */
+typedef struct {
+    unsigned char data[MAX_PKT];
+} packet;                               /* packet definition */
+typedef enum {  data, ack, nak } frame_kind; /* frame kind definition */
+
+queue <packet> network_Recieved;
+queue <packet> network_Send;
+queue <frame> physical_Recieve;
+queue <frame> physical_sent;
+
+bool network_enabled;
+int timeout;
 
 typedef struct {
     frame_kind kind;                    /* what kind of frame? */
@@ -18,7 +28,10 @@ void wait_for_event(event_type *event);
 
 /* fetch a packet from the network layer for transmission */
 void from_network_layer(packet *p);
+/*
 
+
+*/
 /* deliver information from an inbound frame to the network layer */
 void to_network_layer(packet *p);
 
@@ -35,10 +48,10 @@ void start_timer(seq_nr k);
 void stop_timer(seq_nr k);
 
 /* start an auxiliary timer and enable the ack_timeout event */
-void start_ack_timer(seq_nr k);
+//void start_ack_timer(seq_nr k);
 
 /* stop an auxiliary timer and disable the ack_timeout event */
-void stop_ack_timer(seq_nr k);
+//void stop_ack_timer(seq_nr k);
 
 /* allow the network to cause a network_layer_ready event */
 void enable_network_layer(void);
