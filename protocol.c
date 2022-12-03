@@ -44,3 +44,12 @@ void to_physical_layer(frame *s){
     cout<<s->kind<<endl;
 }
 
+int checksum(char *data){
+        int index = sizeof(data);
+        int counter = 0;
+        for(int i=0; i<index; i++){
+         if(data[i]== '1') counter++;
+        }
+        return counter%2;
+    }
+
