@@ -58,5 +58,8 @@ void enable_network_layer(void);
 /* forbid the network to cause a network_layer_ready event */
 void disable_network_layer(void);
 
+/*Even parity check*/
+ int checksum(char *data);
+
 /* macro inc */
 #define inc(k) if (k < MAX_SEQ) k = k + 1; else k = 0
