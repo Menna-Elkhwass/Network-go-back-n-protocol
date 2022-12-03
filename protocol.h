@@ -1,19 +1,17 @@
-#define MAX_PKT 1024                    /* packet size in bytes */
+#include<iostream>
 #include <queue>
-typedef enum { false, true } boolean;   /* boolean type */
+#define MAX_PKT 1024                    /* packet size in bytes */
+using namespace std;
+
+
+
 typedef unsigned int seq_nr;            /* sequence or ACK numbers */
+typedef enum {frame_arrival, cksum_err, timeout, network_layer_ready} event_type;
 typedef struct {
-    unsigned char data[MAX_PKT];
+     char data[MAX_PKT];
 } packet;                               /* packet definition */
 typedef enum {  data, ack, nak } frame_kind; /* frame kind definition */
 
-queue <packet> network_Recieved;
-queue <packet> network_Send;
-queue <frame> physical_Recieve;
-queue <frame> physical_sent;
-
-bool network_enabled;
-int timeout;
 
 typedef struct {
     frame_kind kind;                    /* what kind of frame? */
@@ -22,15 +20,26 @@ typedef struct {
     packet info;                        /* the Network layer packet */
 } frame;
 
+
+
+//queue<packet> network_Recieved;
+queue<packet> network_Send;     //used in to network, takes from physical layer and sends it to physical layer
+queue<frame> physical_Recieve;   // from physical
+queue<frame> physical_send;     // used in to physical, takes from network layer and saves it in physical layer
+
+bool network_enabled = true;
+int time=0;
+
+
+
+
+
+
 /* wait for an event to happen; return its type of event */
 void wait_for_event(event_type *event);
 
 /* fetch a packet from the network layer for transmission */
 void from_network_layer(packet *p);
-/*
-
-
-*/
 /* deliver information from an inbound frame to the network layer */
 void to_network_layer(packet *p);
 
@@ -58,8 +67,7 @@ void enable_network_layer(void);
 /* forbid the network to cause a network_layer_ready event */
 void disable_network_layer(void);
 
-/*Even parity check*/
- int checksum(char *data);
-
 /* macro inc */
 #define inc(k) if (k < MAX_SEQ) k = k + 1; else k = 0
+
+
